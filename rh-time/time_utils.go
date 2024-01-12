@@ -4,10 +4,17 @@ import (
 	"time"
 )
 
+type strTime struct {
+}
+
+func NewstrTime() *strTime {
+	return &strTime{}
+}
+
 // 支持格式
 // 2006-01-02
 // 2006-01-02 15:04:05
-func Str2Time(strTime string) time.Time {
+func (s *strTime) Str2Time(strTime string) time.Time {
 	var (
 		t    = time.Time{}
 		sLen = len(strTime)
