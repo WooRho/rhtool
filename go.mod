@@ -1,3 +1,3 @@
-module github.com/WooRho/rhtool.git
+module github.com/WooRho/rhtool
 
-go 1.20
+go 1.19
