@@ -1,7 +1,7 @@
 package snowflake
 
 import (
-	"github.com/WooRho/rhtool/rhtool_common"
+	"github.com/WooRho/rhtool/rhtool_persistence"
 	"github.com/bwmarrin/snowflake"
 	"sync"
 )
@@ -49,7 +49,7 @@ func (n *customNode) GenerateID() UniqueID {
 
 	id := n.node.Generate()
 	n.nodeOnce.Do(func() {
-		rhtool_common.Persistence("snow", id)
+		rhtool_persistence.Persistence("snow", id)
 	})
 
 	return UniqueID(id)

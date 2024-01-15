@@ -1,4 +1,4 @@
-package rhtool_common
+package rhtool_persistence
 
 import (
 	"encoding/gob"
@@ -116,7 +116,7 @@ func Persistence(key string, id snowflake.ID) (str string) {
 		return
 	}
 
-	cacheFilePath := filepath.Join(dir, "rhtool_common/cache_file.data")
+	cacheFilePath := filepath.Join(dir, "rhtool_persistence/cache_file.data")
 
 	cache, err := newPersistentCache(cacheFilePath)
 	if err != nil {
