@@ -46,20 +46,23 @@ func Str2GetYMD(strTime string) string {
 	return strTimeTransfer(strTime, BackTimeFormatYMD)
 }
 
-// 获取年月日 时分秒
-// get yyyy-dd-mm HH:MM:SS
-func Str2GetYMDHMS(strTime string) string {
-	return strTimeTransfer(strTime, BackTimeFormatYMDHMS)
-}
-
 // 是否是0时
 // is zero time
-func IsYMDZero(strTime string) bool {
-	if string(strTime) == "" {
+func IsStrTimeZero(strTime string) bool {
+	slen := len(strTime)
+	if slen == 0 {
 		return true
 	}
-	_, err := time.ParseInLocation("2006-01-02", strTime, time.Local)
-	return err != nil
+	switch slen {
+	case 10:
+		_, err := time.ParseInLocation("2006-01-02", strTime, time.Local)
+		return err != nil
+	case 19:
+		_, err := time.ParseInLocation("2006-01-02 15:04:05", strTime, time.Local)
+		return err != nil
+	default:
+		return false
+	}
 }
 
 // to unix
@@ -87,10 +90,9 @@ func String2Duration(strTime string) (t time.Duration, err error) {
 }
 
 func strTimeTransfer(strTime string, backType int) string {
-	if isYMDZero(strTime) {
+	if IsStrTimeZero(strTime) {
 		return ""
 	}
-
 	switch backType {
 	// 获取年月日
 	case BackTimeFormatYMD:
@@ -113,12 +115,4 @@ func strTimeTransfer(strTime string, backType int) string {
 		return ""
 	}
 	return ""
-}
-
-func isYMDZero(strTime string) bool {
-	if string(strTime) == "" {
-		return true
-	}
-	_, err := time.ParseInLocation("2006-01-02", strTime, time.Local)
-	return err != nil
 }

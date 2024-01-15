@@ -6,7 +6,7 @@ import (
 )
 
 // is zero
-func IsZero(t time.Time) bool {
+func IsTimeZero(t time.Time) bool {
 	if t.Unix() <= 0 {
 		return true
 	}
@@ -15,13 +15,13 @@ func IsZero(t time.Time) bool {
 
 // time to string
 func Date(t time.Time) string {
-	if IsZero(t) {
+	if IsTimeZero(t) {
 		return ""
 	}
 	return t.Format("2006-01-02")
 }
 func Time(t time.Time) string {
-	if IsZero(t) {
+	if IsTimeZero(t) {
 		return ""
 	}
 	return t.Format("2006-01-02 15:04:05")
