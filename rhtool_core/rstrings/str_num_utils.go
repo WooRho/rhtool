@@ -1,4 +1,4 @@
-package rhtool_strings
+package rstrings
 
 import (
 	"strconv"

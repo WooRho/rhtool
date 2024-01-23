@@ -1,4 +1,4 @@
-package thtool_time
+package rtime
 
 import (
 	"strconv"

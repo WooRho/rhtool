@@ -1,4 +1,4 @@
-package rhtool_number
+package rnumber
 
 import (
 	"fmt"

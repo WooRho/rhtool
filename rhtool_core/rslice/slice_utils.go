@@ -1,4 +1,4 @@
-package rhtool_slice
+package rslice
 
 import "strconv"
 
