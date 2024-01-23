@@ -1,4 +1,4 @@
-package rhtool_math
+package rmath
 
 import (
 	"github.com/shopspring/decimal"

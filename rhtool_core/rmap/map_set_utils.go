@@ -1,4 +1,4 @@
-package rhtool_map
+package rmap
 
 import (
 	"strconv"
