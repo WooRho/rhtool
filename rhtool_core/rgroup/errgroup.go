@@ -114,7 +114,7 @@ func (g *Group) Wait() error {
 
 func Finish(ctx context.Context, gnum int, fns ...func(ctx context.Context) error) (err error) {
 	g := WithCancel(ctx)
-	if gnum > 0 {
+	if gnum > 1 {
 		g.GOMAXPROCS(gnum)
 	}
 	g.skipErr = false
@@ -131,7 +131,7 @@ func Finish(ctx context.Context, gnum int, fns ...func(ctx context.Context) erro
 
 func FinishVoidErr(ctx context.Context, gnum int, fns ...func(ctx context.Context) error) {
 	g := WithCancel(ctx)
-	if gnum > 0 {
+	if gnum > 1 {
 		g.GOMAXPROCS(gnum)
 	}
 	g.skipErr = true
