@@ -6,9 +6,9 @@ import (
 )
 
 func TestEmail(t *testing.T) {
-	form := "13421100714@163.com"
-	userName := "13421100714@163.com"
-	password := "ZHACDWEHOMYGOVIN"
+	form := "13********14@163.com"
+	userName := "13*******14@163.com"
+	password := "*****************"
 	stmp := "smtp.163.com"
 	port := "25"
 
@@ -27,9 +27,12 @@ func TestEmail(t *testing.T) {
 <li><a "https://go-quiz.github.io/2020/01/20/godailylib/cast/">Go 每日一库之 cast</a></li>
 </ul>
   `)
-	email := NewREmail(form, userName, password, stmp, port)
+	email, err := NewREmail(form, userName, password, stmp, port)
+	if err != nil {
+		return
+	}
 
 	email.SetContent("靓仔", to, cc, text, html)
-	err := email.Send()
+	err = email.Send()
 	fmt.Println(err)
 }
