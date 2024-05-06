@@ -31,3 +31,30 @@ func TestSetUnit64(t *testing.T) {
 	fmt.Println(set.Size())
 
 }
+
+func TestSetNewIntegerSet(t *testing.T) {
+	set := NewIntegerSet[int]()
+	set.Add(12)
+	set.AddList([]int{24, 53, 64})
+
+	// [12 24 53 64]
+	fmt.Println(set.List())
+
+	set.DeleteList([]int{12, 24})
+	// [53 64]
+	fmt.Println(set.List())
+
+	// true
+	fmt.Println(set.In(64))
+	// false
+	fmt.Println(set.In(24))
+	set.AddList([]int{888, 777, 666})
+
+	// 888,777,53,64,666
+	fmt.Println(set.Merge2String(","))
+	// true
+	fmt.Println(set.ListIn([]int{888, 777, 666}))
+	// 5
+	fmt.Println(set.Size())
+
+}
