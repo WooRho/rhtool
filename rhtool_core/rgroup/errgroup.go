@@ -30,13 +30,14 @@ func WithCancel(ctx context.Context) *Group {
 	return &Group{ctx: ctx, cancel: cancel}
 }
 
-func (g *Group) do(f func(ctx context.Context) error) {
+func (g *Group) do(gn func(ctx context.Context) error) {
 	ctx := g.ctx
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	var err error
 	defer func() {
+		g.wg.Done()
 		if r := recover(); r != nil {
 			buf := make([]byte, 64<<10)
 			buf = buf[:runtime.Stack(buf, false)]
@@ -50,7 +51,6 @@ func (g *Group) do(f func(ctx context.Context) error) {
 				}
 			})
 		}
-		g.wg.Done()
 	}()
 	if !g.skipErr {
 		select {
@@ -58,11 +58,11 @@ func (g *Group) do(f func(ctx context.Context) error) {
 			fmt.Println("ctx.Done()")
 			return
 		default:
-			err = f(ctx)
+			err = gn(ctx)
 		}
 	}
 	if g.skipErr {
-		err = f(ctx)
+		err = gn(ctx)
 	}
 }
 
@@ -74,8 +74,16 @@ func (g *Group) GOMAXPROCS(n int) {
 	g.workerOnce.Do(func() {
 		g.ch = make(chan func(context.Context) error, n)
 		for i := 0; i < n; i++ {
+			//groupname := "group" + strconv.Itoa(i+1)
 			go func() {
+				//for {
+				//	select {
+				//	case f := <-g.ch:
+				//		g.do(f)
+				//	}
+				//}
 				for f := range g.ch {
+					// 协程
 					g.do(f)
 				}
 			}()
@@ -129,7 +137,7 @@ func Finish(ctx context.Context, gnum int, fns ...func(ctx context.Context) erro
 	return
 }
 
-func FinishVoidErr(ctx context.Context, gnum int, fns ...func(ctx context.Context) error) {
+func FinishVoidErr(ctx context.Context, gnum int, fns ...func(ctx context.Context) error) error {
 	g := WithCancel(ctx)
 	if gnum > 1 {
 		g.GOMAXPROCS(gnum)
@@ -140,7 +148,7 @@ func FinishVoidErr(ctx context.Context, gnum int, fns ...func(ctx context.Contex
 	}
 
 	if err := g.Wait(); err != nil {
-		return
+		return err
 	}
-	return
+	return nil
 }

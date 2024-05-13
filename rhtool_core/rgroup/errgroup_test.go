@@ -10,8 +10,9 @@ import (
 
 func TestErrGroup(T *testing.T) {
 	ctx := context.TODO()
-	err := Finish(ctx, 5, func(ctx context.Context) error {
+	err := Finish(ctx, 2, func(ctx context.Context) error {
 		err := errors.New("1111err")
+		time.Sleep(time.Second)
 		fmt.Println(111111)
 		return err
 	}, func(ctx context.Context) error {
@@ -30,7 +31,8 @@ func TestErrGroup(T *testing.T) {
 		time.Sleep(time.Second)
 		fmt.Println(55555)
 		return nil
-	})
+	},
+	)
 
 	fmt.Println("-----------")
 	fmt.Println(err)
@@ -57,24 +59,29 @@ func TestErrGroup(T *testing.T) {
 
 func TestErrGroupV(T *testing.T) {
 	ctx := context.TODO()
-	FinishVoidErr(ctx, 5, func(ctx context.Context) error {
+	err := FinishVoidErr(ctx, 5, func(ctx context.Context) error {
 		fmt.Println(111111)
 		err := errors.New("dddd")
 		return err
 	}, func(ctx context.Context) error {
+		time.Sleep(time.Second)
 		fmt.Println(222222)
 		return nil
 	}, func(ctx context.Context) error {
+		time.Sleep(time.Second)
 		fmt.Println(333333)
 		return nil
 	}, func(ctx context.Context) error {
+		time.Sleep(time.Second)
 		fmt.Println(44444)
 		return nil
 	}, func(ctx context.Context) error {
+		time.Sleep(time.Second)
 		fmt.Println(55555)
 		return nil
 	})
 
+	fmt.Println(err)
 	//=== RUN   TestErrGroupV
 	//111111
 	//222222
